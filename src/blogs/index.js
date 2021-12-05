@@ -37,4 +37,14 @@ blogsRouter.post("/", (req, res) => {
   res.status(201).send({ id: newBlogs.id });
 });
 
+blogsRouter.delete("/:blogsId", (req, res) => {
+  const blogs = JSON.parse(fs.readFileSync(blogsJSONPath));
+
+  const remainingBlogs = blogs.filter((blog) => blog.id !== req.params.blogId);
+
+  fs.writeFileSync(blogsJSONPath, JSON.stringify(remainingBlogs));
+
+  res.status(204).send();
+});
+
 export default blogsRouter;
