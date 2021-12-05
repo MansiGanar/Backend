@@ -1,5 +1,6 @@
 import express, { json } from "express";
 import fs from "fs";
+import uniqid from "uniqid";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 
@@ -18,6 +19,22 @@ blogsRouter.get("/", (req, res) => {
 
   //   console.log("This is the GET method");
   res.send(blogsArray);
+});
+
+blogsRouter.post("/", (req, res) => {
+  console.log("Body: ", req.body);
+
+  const newBlogs = { ...req.body, crearedAt: new Date(), id: uniqid() };
+  console.log(newBlogs);
+
+  const blogs = JSON.parse(fs.readFileSync(blogsJSONPath));
+
+  blogs.push(newBlogs);
+
+  fs.writeFileSync(blogsJSONPath, JSON.stringify(blogs));
+
+  //   console.log("POST method");
+  res.status(201).send({ id: newBlogs.id });
 });
 
 export default blogsRouter;
