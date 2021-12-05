@@ -37,7 +37,15 @@ blogsRouter.post("/", (req, res) => {
   res.status(201).send({ id: newBlogs.id });
 });
 
-blogsRouter.delete("/:blogsId", (req, res) => {
+blogsRouter.get("/:blogId", (req, res) => {
+  console.log("User Id: ", req.params.blogId);
+  const blogs = JSON.parse(fs.readFileSync(blogsJSONPath));
+  const blog = blogs.find((b) => b.id === req.params.blogId);
+
+  res.send(blog);
+});
+
+blogsRouter.delete("/:blogId", (req, res) => {
   const blogs = JSON.parse(fs.readFileSync(blogsJSONPath));
 
   const remainingBlogs = blogs.filter((blog) => blog.id !== req.params.blogId);
