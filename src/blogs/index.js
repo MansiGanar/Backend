@@ -45,6 +45,18 @@ blogsRouter.get("/:blogId", (req, res) => {
   res.send(blog);
 });
 
+blogsRouter.put("/:blogId", (req, res) => {
+  const blogs = JSON.parse(fs.readFileSync(blogsJSONPath));
+
+  const index = blogs.findIndex((blog) => blog.id === req.params.blogId);
+
+  const updatedBlog = { ...blogs[index], ...req.body };
+
+  fs.writeFileSync(blogsJSONPath, JSON.stringify(blogs));
+
+  res.send(updatedBlog);
+});
+
 blogsRouter.delete("/:blogId", (req, res) => {
   const blogs = JSON.parse(fs.readFileSync(blogsJSONPath));
 
