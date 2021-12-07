@@ -22,7 +22,7 @@ blogsRouter.get("/", (req, res) => {
 });
 
 blogsRouter.post("/", (req, res) => {
-  console.log("Body: ", req.body);
+  // console.log("Body: ", req.body);
 
   const newBlogs = { ...req.body, crearedAt: new Date(), id: uniqid() };
   console.log(newBlogs);
